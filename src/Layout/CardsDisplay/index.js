@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Plus, JournalBookmarkFill, PencilFill } from "react-bootstrap-icons";
+import {
+  PlusCircleFill,
+  JournalBookmarkFill,
+  PencilFill,
+  TrashFill,
+} from "react-bootstrap-icons";
 import { Link, useRouteMatch } from "react-router-dom";
-import {listCards} from "../../utils/api";
+import { listCards, readDeck } from "../../utils/api";
 
 export default function CardsDisplay() {
-  const {params} = useRouteMatch();
+  const { params } = useRouteMatch();
   const [cards, setCards] = useState([]);
+  const [deck, setDeck] = useState({});
 
   useEffect(() => {
     const ABORT = new AbortController();
@@ -20,45 +26,60 @@ export default function CardsDisplay() {
           throw e;
         }
       }
-    }
+    };
+
+    const getDeck = async () => {
+      try {
+        const response = await readDeck(params.deckId, ABORT.signal);
+        setDeck(() => response);
+      } catch (e) {
+        if (e.name === "AbortError") {
+          console.log(e);
+        } else {
+          throw e;
+        }
+      }
+    };
 
     getCards();
+    getDeck();
 
     return () => {
       ABORT.abort();
-    }
-  }, [params.deckId])
+    };
+  }, [params.deckId]);
 
   const cardsForDisplay = cards.map((card) => {
     return (
       <div key={card.id} className="card">
         <div className="card-body">
           <div className="row">
-          <div className="col col-6"> Things to note</div>
-          <div className="col col-6"> Other things to note</div>
+            <div className="col col-6">{card.front}</div>
+            <div className="col col-6">{card.back}</div>
           </div>
 
-          <div className="d-flex">
-            <Link to={`/${card.id}`}>
+          <div className="d-flex" style={{ marginTop: "10px" }}>
+            {/* <Link to={`/${card.id}`}>
               <button className="btn btn-secondary" type="button">
                 {" "}
                 <Plus /> &nbsp; View
               </button>
-            </Link>
-            <Link to={`/${card.id}/study`}>
-              <button
-                className="btn btn-primary"
-                type="button"
-                style={{ marginLeft: "10px" }}
-              >
+            </Link> */}
+
+            <Link to={`/${card.id}/study`} className="ml-auto">
+              <button className="btn btn-secondary" type="button">
                 {" "}
-                <JournalBookmarkFill />
-                &nbsp; Study
+                <PencilFill />
+                &nbsp; Edit
               </button>
             </Link>
-            <button className="btn btn-danger ml-auto" type="button">
+            <button
+              style={{ marginLeft: "10px" }}
+              className="btn btn-danger"
+              type="button"
+            >
               {" "}
-              <PencilFill />
+              <TrashFill />
             </button>
           </div>
         </div>
@@ -66,5 +87,61 @@ export default function CardsDisplay() {
     );
   });
 
-  return <React.Fragment>{cardsForDisplay}</React.Fragment>;
+  return (
+    <React.Fragment>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li class="breadcrumb-item active">
+            <Link to={`/${deck.id}`}>{deck.name}</Link>
+          </li>
+        </ol>
+      </nav>
+      <h3>{deck.name}</h3>
+      <p>{deck.description}</p>
+      <div className="d-flex" style={{ marginBottom: "20px" }}>
+        <Link to={`/${deck.id}/edit`}>
+          <button className="btn btn-secondary" type="button">
+            {" "}
+            <PencilFill />
+            &nbsp; Edit
+          </button>
+        </Link>
+        <Link to={`/${deck.id}/study`}>
+          <button
+            className="btn btn-primary"
+            style={{ marginLeft: "10px" }}
+            type="button"
+          >
+            {" "}
+            <JournalBookmarkFill />
+            &nbsp; Study
+          </button>
+        </Link>
+        <Link to={`/${deck.id}/new`}>
+          <button
+            className="btn btn-primary"
+            style={{ marginLeft: "10px" }}
+            type="button"
+          >
+            {" "}
+            <PlusCircleFill />
+            &nbsp; Add Cards
+          </button>
+        </Link>
+        <button
+          style={{ marginLeft: "10px" }}
+          className="btn btn-danger ml-auto"
+          type="button"
+        >
+          {" "}
+          <TrashFill />
+        </button>
+      </div>
+      <h2>Cards</h2>
+      {cardsForDisplay}
+    </React.Fragment>
+  );
 }
