@@ -3,6 +3,7 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DecksDisplay from "./DecksDisplay/index";
+import CardsDisplay from "./CardsDisplay"
 import { listDecks } from "../utils/api/index";
 
 function Layout() {
@@ -17,7 +18,7 @@ function Layout() {
         const data = await listDecks();
         setDecks(() => { return data })
       } catch (e) {
-        if (e.name == "AbortError") {
+        if (e.name === "AbortError") {
           console.log(e)
         } else {
           throw e;
@@ -38,6 +39,9 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
+          <Route path="/:deckId" exact>
+            <CardsDisplay />
+          </Route>
           <Route path="/" exact>
             <DecksDisplay decks={decks}/>
           </Route>

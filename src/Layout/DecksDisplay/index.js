@@ -1,6 +1,7 @@
 import React from "react";
 import { EyeFill, JournalBookmarkFill, TrashFill } from "react-bootstrap-icons";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Route, Link, useRouteMatch } from "react-router-dom";
+import CardsDisplay from "../CardsDisplay"
 
 export default function DecksDisplay({ decks }) {
   const { path, url } = useRouteMatch();
@@ -39,5 +40,7 @@ export default function DecksDisplay({ decks }) {
     );
   });
 
-  return <React.Fragment>{decksForDisplay}</React.Fragment>;
+  return <React.Fragment>
+    {decksForDisplay}
+    </React.Fragment>;
 }
