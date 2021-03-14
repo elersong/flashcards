@@ -3,6 +3,7 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DecksDisplay from "./DecksDisplay/index";
+import { listDecks } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -13,8 +14,7 @@ function Layout() {
     const ABORT = new AbortController();
     const getDecks = async () => {
       try {
-        const response = await fetch("http://localhost:5000/decks", {signal: ABORT.signal});
-        const data = await response.json();
+        const data = await listDecks();
         setDecks(() => { return data })
       } catch (e) {
         if (e.name == "AbortError") {
@@ -39,7 +39,7 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route path="/" exact>
-            <DecksDisplay />
+            <DecksDisplay decks={decks}/>
           </Route>
           <Route>
             <NotFound />
