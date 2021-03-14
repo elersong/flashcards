@@ -5,7 +5,8 @@ import NotFound from "./NotFound";
 import DecksDisplay from "./DecksDisplay/index";
 import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
-import { listDecks } from "../utils/api/index";
+import CardForm from './CardForm';
+import { listDecks, readDeck } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -40,13 +41,16 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
+          <Route path="/:deckId/cards/new">
+            <CardForm readDeck={readDeck} />
+          </Route>
           <Route path="/new" exact>
             <DeckForm />
           </Route>
           <Route path="/:deckId">
             <CardsDisplay />
           </Route>
-          <Route path="/" exact>
+          <Route path="/">
             <DecksDisplay decks={decks}/>
           </Route>
           <Route>
