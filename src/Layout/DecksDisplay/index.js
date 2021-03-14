@@ -1,10 +1,9 @@
 import React from "react";
 import { EyeFill, JournalBookmarkFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
-import { Route, Link, useRouteMatch } from "react-router-dom";
-import CardsDisplay from "../CardsDisplay"
+import { Route, Link } from "react-router-dom";
 
 export default function DecksDisplay({ decks }) {
-  const { path, url } = useRouteMatch();
+
   const decksForDisplay = decks.map((deck) => {
     return (
       <div className="card">

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DecksDisplay from "./DecksDisplay/index";
-import CardsDisplay from "./CardsDisplay"
+import CardsDisplay from "./CardsDisplay";
+import DeckForm from './DeckForm';
 import { listDecks } from "../utils/api/index";
 
 function Layout() {
@@ -39,7 +40,10 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
-          <Route path="/:deckId" exact>
+          <Route path="/new" exact>
+            <DeckForm />
+          </Route>
+          <Route path="/:deckId">
             <CardsDisplay />
           </Route>
           <Route path="/" exact>
