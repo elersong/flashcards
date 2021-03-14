@@ -1,5 +1,5 @@
 import React from "react";
-import { EyeFill, JournalBookmarkFill, TrashFill } from "react-bootstrap-icons";
+import { EyeFill, JournalBookmarkFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import CardsDisplay from "../CardsDisplay"
 
@@ -41,6 +41,17 @@ export default function DecksDisplay({ decks }) {
   });
 
   return <React.Fragment>
+    <Link to="/new">
+          <button
+            className="btn btn-secondary"
+            style={{ marginBottom: "25px" }}
+            type="button"
+          >
+            {" "}
+            <PlusCircleFill />
+            &nbsp; Create Deck
+          </button>
+        </Link>
     {decksForDisplay}
     </React.Fragment>;
 }
