@@ -33,8 +33,10 @@ export default function CardsDisplay() {
     return (
       <div key={card.id} className="card">
         <div className="card-body">
-          <div className="col"> Things to note</div>
-          <div className="col"> Other things to note</div>
+          <div className="row">
+          <div className="col col-6"> Things to note</div>
+          <div className="col col-6"> Other things to note</div>
+          </div>
 
           <div className="d-flex">
             <Link to={`/${card.id}`}>
