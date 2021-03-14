@@ -1,4 +1,5 @@
 import React from "react";
+import {EyeFill, JournalBookmarkFill, TrashFill} from 'react-bootstrap-icons';
 
 export default function DecksDisplay({ decks }) {
   const decksForDisplay = decks.map((deck) => {
@@ -9,14 +10,14 @@ export default function DecksDisplay({ decks }) {
           <p className="card-text">{deck.description}</p>
 
           <div className="d-flex">
-          <button class="btn btn-primary" type="button">
-            Button
+          <button class="btn btn-secondary" type="button"> <EyeFill /> &nbsp;
+            View 
           </button>
-          <button class="btn btn-primary" type="button">
-            Button
+          <button class="btn btn-primary" type="button" style={{marginLeft: "10px"}}> <JournalBookmarkFill />&nbsp;
+            Study
           </button>
-          <button class="btn btn-primary ml-auto" type="button">
-            Button
+          <button class="btn btn-danger ml-auto" type="button"> <TrashFill />
+            
           </button>
           </div>
           
