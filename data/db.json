@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Rendering in React",
-      "description": "React's component structure allows for quickly building a complex web application that relies on DOM manipulation. "
+      "description": "React's component structure allows for quickly building a complex web application that relies on DOM manipulation!"
     },
     {
       "name": "React Router",
@@ -49,8 +49,8 @@
     },
     {
       "cards": [],
-      "front": "b",
-      "back": "b",
+      "front": "back... JUST KIDDING",
+      "back": "back, no for real this time",
       "deckId": 1,
       "id": 7
     },

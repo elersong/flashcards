@@ -1,9 +1,41 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 
-export default function DeckForm({ role, createDeck, reload }) {
+export default function DeckForm({
+  role,
+  createDeck,
+  updateDeck,
+  reload,
+  readDeck,
+}) {
   const [formData, setFormData] = useState({ name: "", description: "" });
   let history = useHistory();
+  const { deckId } = useParams();
+
+  useEffect(() => {
+    if (role === "Edit") {
+      const ABORT = new AbortController();
+      const retrieveDeck = async () => {
+        try {
+          const response = await readDeck(deckId, ABORT.signal);
+          setFormData(() => response);
+        } catch (err) {
+          if (err.name === "AbortError") {
+            console.log(err);
+          } else {
+            throw err;
+          }
+        }
+      };
+
+      retrieveDeck();
+
+      return () => {
+        ABORT.abort();
+      };
+    }
+    // eslint-disable-next-line
+  }, [deckId]);
 
   const handleChange = (e) => {
     const property = e.target.id;
@@ -18,7 +50,11 @@ export default function DeckForm({ role, createDeck, reload }) {
     const submitNewDeck = async () => {
       try {
         e.preventDefault();
-        await createDeck(formData, ABORT.signal);
+        if (role === "Create") {
+          await createDeck(formData, ABORT.signal);
+        } else {
+          await updateDeck(formData, ABORT.signal);
+        }
         reload();
         history.push("/");
       } catch (e) {
@@ -28,14 +64,14 @@ export default function DeckForm({ role, createDeck, reload }) {
           throw e;
         }
       }
-    }
+    };
 
     submitNewDeck();
 
     return () => {
       ABORT.abort();
-    }
-  }
+    };
+  };
 
   return (
     <React.Fragment>
