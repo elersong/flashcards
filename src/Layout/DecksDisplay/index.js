@@ -1,6 +1,6 @@
 import React from "react";
 import { EyeFill, JournalBookmarkFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function DecksDisplay({ decks }) {
 

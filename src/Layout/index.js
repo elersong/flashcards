@@ -6,7 +6,8 @@ import DecksDisplay from "./DecksDisplay/index";
 import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
 import CardForm from './CardForm';
-import { listDecks, readDeck } from "../utils/api/index";
+import Study from './Study';
+import { listDecks, readDeck, listCards } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -43,6 +44,9 @@ function Layout() {
         <Switch>
           <Route path="/:deckId/cards/new">
             <CardForm readDeck={readDeck} />
+          </Route>
+          <Route path="/:deckId/study">
+            <Study readDeck={readDeck} listCards={listCards} />
           </Route>
           <Route path="/new" exact>
             <DeckForm />
