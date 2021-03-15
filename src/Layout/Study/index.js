@@ -66,12 +66,12 @@ export default function Study({ readDeck, listCards }) {
           <h4>{`Card ${currentCard.orderId} of ${cards.length}`}</h4>
           <p>{showCardContent()}</p>
 
-          <button onClick={handleFlip} renderAs={Link} class="btn btn-secondary" type="button">
+          <button onClick={handleFlip} className="btn btn-secondary" type="button">
             Flip
           </button>
           <button
             onClick={handleNextCard}
-            class="btn btn-primary"
+            className="btn btn-primary"
             type="button"
             style={{ marginLeft: "10px" }}
           >
