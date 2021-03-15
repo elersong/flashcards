@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { PlusCircleFill } from "react-bootstrap-icons";
 
 export default function Study({ readDeck, listCards }) {
   const { deckId } = useParams();
   const [deckInfo, setDeckInfo] = useState({});
   const [cards, setCards] = useState([]);
-  const [currentCard, setCurrentCard] = useState({orderId: 1, displayFront: true});
+  const [currentCard, setCurrentCard] = useState({
+    orderId: 1,
+    displayFront: true,
+  });
 
   useEffect(() => {
     const ABORT = new AbortController();
@@ -27,25 +31,82 @@ export default function Study({ readDeck, listCards }) {
   }, [deckId, readDeck, listCards]);
 
   useEffect(() => {
-    const newCurrentCard = {...currentCard, ...cards[0]};
-    setCurrentCard(() => newCurrentCard );
+    const newCurrentCard = { ...currentCard, ...cards[0] };
+    setCurrentCard(() => newCurrentCard);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards])
+  }, [cards]);
 
   const handleFlip = (e) => {
-    const newCurrentCard = {...currentCard, displayFront: !currentCard.displayFront};
+    const newCurrentCard = {
+      ...currentCard,
+      displayFront: !currentCard.displayFront,
+    };
     setCurrentCard(() => newCurrentCard);
-  }
+  };
 
   const showCardContent = () => {
     return currentCard.displayFront ? currentCard.front : currentCard.back;
-  }
+  };
 
   const handleNextCard = (e) => {
-    const nextCardId = (currentCard.orderId >= cards.length) ? 0 : currentCard.orderId;
-    const newCurrentCard = {orderId: (nextCardId+1), displayFront: true, ...cards[nextCardId]};
+    const nextCardId =
+      currentCard.orderId >= cards.length ? 0 : currentCard.orderId;
+    const newCurrentCard = {
+      orderId: nextCardId + 1,
+      displayFront: true,
+      ...cards[nextCardId],
+    };
     setCurrentCard(() => newCurrentCard);
-  }
+  };
+
+  const studyContent = (() => {
+    if (cards.length >= 3) {
+      return (
+        <div className="card">
+          <div className="card-body">
+            <h4>{`Card ${currentCard.orderId} of ${cards.length}`}</h4>
+            <p>{showCardContent()}</p>
+
+            <button
+              onClick={handleFlip}
+              className="btn btn-secondary"
+              type="button"
+            >
+              Flip
+            </button>
+            <button
+              onClick={handleNextCard}
+              className="btn btn-primary"
+              type="button"
+              style={{ marginLeft: "10px" }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Not enough cards.</h2>
+          <p>
+            You need at least 3 cards to study. There are {cards.length} cards
+            this deck.
+          </p>
+          <Link to={`/${deckId}/cards/new`}>
+            <button
+              className="btn btn-primary"
+              type="button"
+            >
+              {" "}
+              <PlusCircleFill />
+              &nbsp; Add Cards
+            </button>
+          </Link>
+        </div>
+      );
+    }
+  })();
 
   return (
     <React.Fragment>
@@ -61,24 +122,7 @@ export default function Study({ readDeck, listCards }) {
         </ol>
       </nav>
       <h2 style={{ marginBottom: "15px" }}>{`${deckInfo.name}: Study`}</h2>
-      <div className="card">
-        <div className="card-body">
-          <h4>{`Card ${currentCard.orderId} of ${cards.length}`}</h4>
-          <p>{showCardContent()}</p>
-
-          <button onClick={handleFlip} className="btn btn-secondary" type="button">
-            Flip
-          </button>
-          <button
-            onClick={handleNextCard}
-            className="btn btn-primary"
-            type="button"
-            style={{ marginLeft: "10px" }}
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      {studyContent}
     </React.Fragment>
   );
 }

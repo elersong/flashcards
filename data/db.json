@@ -14,6 +14,11 @@
       "name": "Card deck 1",
       "description": "Here's the first deck I'm actually going to add cards to",
       "id": 3
+    },
+    {
+      "name": "Short deck",
+      "description": "this won't have many cards in it",
+      "id": 4
     }
   ],
   "cards": [
@@ -71,6 +76,12 @@
       "back": "Look at its majesty",
       "deckId": 3,
       "id": 10
+    },
+    {
+      "front": "here's the first card",
+      "back": "and here's the other",
+      "deckId": 4,
+      "id": 11
     }
   ]
 }
