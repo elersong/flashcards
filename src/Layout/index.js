@@ -40,7 +40,7 @@ function Layout() {
   }, [decksHaveChanged]);
 
   // pass a deletion handler as needed
-  const handleDelete = (idValue) => {
+  const handleDeckDelete = (idValue) => {
     const ABORT = new AbortController();
 
     const removeDeck = async () => {
@@ -83,10 +83,10 @@ function Layout() {
             <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
           </Route>
           <Route path="/:deckId">
-            <CardsDisplay handleDelete={handleDelete} />
+            <CardsDisplay handleDeckDelete={handleDeckDelete} />
           </Route>
           <Route path="/">
-            <DecksDisplay decks={decks} handleDelete={handleDelete} />
+            <DecksDisplay decks={decks} handleDelete={handleDeckDelete} />
           </Route>
           <Route>
             <NotFound />

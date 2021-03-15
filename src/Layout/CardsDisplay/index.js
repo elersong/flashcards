@@ -8,7 +8,7 @@ import {
 import { Link, useRouteMatch } from "react-router-dom";
 import { listCards, readDeck } from "../../utils/api";
 
-export default function CardsDisplay({ handleDelete }) {
+export default function CardsDisplay({ handleDeckDelete }) {
   const { params } = useRouteMatch();
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState({});
@@ -60,7 +60,7 @@ export default function CardsDisplay({ handleDelete }) {
 
           <div className="d-flex" style={{ marginTop: "10px" }}>
 
-            <Link to={`/${card.id}/study`} className="ml-auto">
+            <Link to={`/${params.deckId}/cards/${card.id}/edit`} className="ml-auto">
               <button className="btn btn-secondary" type="button">
                 {" "}
                 <PencilFill />
@@ -129,7 +129,7 @@ export default function CardsDisplay({ handleDelete }) {
           style={{ marginLeft: "10px" }}
           className="btn btn-danger ml-auto"
           type="button"
-          onClick={() => handleDelete(params.deckId)}
+          onClick={() => handleDeckDelete(params.deckId)}
         >
           {" "}
           <TrashFill />
