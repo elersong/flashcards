@@ -95,7 +95,7 @@ export default function CardsDisplay() {
             <Link to="/">Home</Link>
           </li>
           <li class="breadcrumb-item active">
-            <Link to={`/${deck.id}`}>{deck.name}</Link>
+            {deck.name}
           </li>
         </ol>
       </nav>
