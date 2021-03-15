@@ -114,7 +114,7 @@ export default function CardsDisplay({ handleDelete }) {
             &nbsp; Study
           </button>
         </Link>
-        <Link to={`/${deck.id}/new`}>
+        <Link to={`/${deck.id}/cards/new`}>
           <button
             className="btn btn-primary"
             style={{ marginLeft: "10px" }}

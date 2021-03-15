@@ -7,7 +7,7 @@ import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
 import CardForm from './CardForm';
 import Study from './Study';
-import { listDecks, readDeck, listCards, createDeck, deleteDeck } from "../utils/api/index";
+import { listDecks, readDeck, listCards, readCard, createDeck, deleteDeck, updateCard, createCard } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -70,8 +70,11 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
+          <Route path="/:deckId/cards/:cardId/edit">
+            <CardForm role="Edit" readDeck={readDeck} readCard={readCard} updateCard={updateCard} />
+          </Route>
           <Route path="/:deckId/cards/new">
-            <CardForm readDeck={readDeck} />
+            <CardForm role="Create" readDeck={readDeck} createCard={createCard} />
           </Route>
           <Route path="/:deckId/study">
             <Study readDeck={readDeck} listCards={listCards} />
