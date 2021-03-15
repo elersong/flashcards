@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DecksDisplay from "./DecksDisplay/index";
@@ -12,7 +12,7 @@ import { listDecks, readDeck, listCards, createDeck, deleteDeck } from "../utils
 function Layout() {
   const [decks, setDecks] = useState([]);
   const [decksHaveChanged, setDecksHaveChanged] = useState(false);
-  //const {path, url} = useRouteMatch();
+  let history = useHistory();
 
   // Retrieve all decks from the api for display on home page
   useEffect(() => {
@@ -39,6 +39,32 @@ function Layout() {
 
   }, [decksHaveChanged]);
 
+  // pass a deletion handler as needed
+  const handleDelete = (idValue) => {
+    const ABORT = new AbortController();
+
+    const removeDeck = async () => {
+      try {
+        const response = await deleteDeck(idValue, ABORT.signal);
+        console.log("Successfully deleted", response)
+        setDecksHaveChanged(true);
+        history.push("/")
+      } catch (e) {
+        if (e.name === "AbortError") {
+          console.log(e);
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    removeDeck();
+
+    return () => {
+      ABORT.abort();
+    }
+  }
+
   return (
     <>
       <Header />
@@ -54,10 +80,10 @@ function Layout() {
             <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
           </Route>
           <Route path="/:deckId">
-            <CardsDisplay />
+            <CardsDisplay handleDelete={handleDelete} />
           </Route>
           <Route path="/">
-            <DecksDisplay decks={decks} deleteDeck={deleteDeck} reload={setDecksHaveChanged} />
+            <DecksDisplay decks={decks} handleDelete={handleDelete} />
           </Route>
           <Route>
             <NotFound />

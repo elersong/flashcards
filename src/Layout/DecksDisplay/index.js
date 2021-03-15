@@ -7,31 +7,7 @@ import {
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-export default function DecksDisplay({ decks, deleteDeck, reload }) {
-
-  const handleDelete = (e) => {
-    const ABORT = new AbortController();
-
-    const removeDeck = async () => {
-      try {
-        const response = await deleteDeck(e.target.parentNode["name"], ABORT.signal);
-        console.log("Successfully deleted", response)
-        reload(true);
-      } catch (e) {
-        if (e.name === "AbortError") {
-          console.log(e);
-        } else {
-          throw e;
-        }
-      }
-    }
-
-    removeDeck();
-
-    return () => {
-      ABORT.abort();
-    }
-  }
+export default function DecksDisplay({ decks, handleDelete }) {
 
   const decksForDisplay = decks.map((deck, idx) => {
     return (
@@ -58,7 +34,7 @@ export default function DecksDisplay({ decks, deleteDeck, reload }) {
                 &nbsp; Study
               </button>
             </Link>
-            <button name={deck.id} onClick={handleDelete} className="btn btn-danger ml-auto" type="button">
+            <button name={deck.id} onClick={() => handleDelete(deck.id)} className="btn btn-danger ml-auto" type="button">
               {" "}
               <TrashFill name={deck.id}/>
             </button>

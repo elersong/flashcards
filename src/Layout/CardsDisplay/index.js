@@ -8,7 +8,7 @@ import {
 import { Link, useRouteMatch } from "react-router-dom";
 import { listCards, readDeck } from "../../utils/api";
 
-export default function CardsDisplay() {
+export default function CardsDisplay({ handleDelete }) {
   const { params } = useRouteMatch();
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState({});
@@ -59,12 +59,6 @@ export default function CardsDisplay() {
           </div>
 
           <div className="d-flex" style={{ marginTop: "10px" }}>
-            {/* <Link to={`/${card.id}`}>
-              <button className="btn btn-secondary" type="button">
-                {" "}
-                <Plus /> &nbsp; View
-              </button>
-            </Link> */}
 
             <Link to={`/${card.id}/study`} className="ml-auto">
               <button className="btn btn-secondary" type="button">
@@ -90,11 +84,11 @@ export default function CardsDisplay() {
   return (
     <React.Fragment>
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
             <Link to="/">Home</Link>
           </li>
-          <li class="breadcrumb-item active">
+          <li className="breadcrumb-item active">
             {deck.name}
           </li>
         </ol>
@@ -135,6 +129,7 @@ export default function CardsDisplay() {
           style={{ marginLeft: "10px" }}
           className="btn btn-danger ml-auto"
           type="button"
+          onClick={() => handleDelete(params.deckId)}
         >
           {" "}
           <TrashFill />
