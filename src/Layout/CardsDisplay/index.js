@@ -8,7 +8,7 @@ import {
 import { Link, useRouteMatch } from "react-router-dom";
 import { listCards, readDeck } from "../../utils/api";
 
-export default function CardsDisplay({ handleDeckDelete }) {
+export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
   const { params } = useRouteMatch();
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState({});
@@ -71,6 +71,7 @@ export default function CardsDisplay({ handleDeckDelete }) {
               style={{ marginLeft: "10px" }}
               className="btn btn-danger"
               type="button"
+              onClick={() => handleCardDelete(card.id)}
             >
               {" "}
               <TrashFill />

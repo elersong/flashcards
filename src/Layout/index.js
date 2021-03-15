@@ -7,7 +7,7 @@ import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
 import CardForm from './CardForm';
 import Study from './Study';
-import { listDecks, readDeck, listCards, readCard, createDeck, deleteDeck, updateCard, createCard } from "../utils/api/index";
+import { listDecks, readDeck, listCards, readCard, createDeck, deleteDeck, updateCard, createCard, deleteCard } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -65,6 +65,32 @@ function Layout() {
     }
   }
 
+  // deletion handler for individual cards
+  const handleCardDelete = (idValue) => {
+    const ABORT = new AbortController();
+
+    const removeCard = async () => {
+      try {
+        const response = await deleteCard(idValue, ABORT.signal);
+        console.log("Successfully deleted", response)
+        setDecksHaveChanged(true);
+        history.push("/")
+      } catch (e) {
+        if (e.name === "AbortError") {
+          console.log(e);
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    removeCard();
+
+    return () => {
+      ABORT.abort();
+    }
+  }
+
   return (
     <>
       <Header />
@@ -83,7 +109,7 @@ function Layout() {
             <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
           </Route>
           <Route path="/:deckId">
-            <CardsDisplay handleDeckDelete={handleDeckDelete} />
+            <CardsDisplay handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} />
           </Route>
           <Route path="/">
             <DecksDisplay decks={decks} handleDelete={handleDeckDelete} />
