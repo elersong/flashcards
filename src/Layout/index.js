@@ -7,10 +7,11 @@ import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
 import CardForm from './CardForm';
 import Study from './Study';
-import { listDecks, readDeck, listCards } from "../utils/api/index";
+import { listDecks, readDeck, listCards, createDeck, deleteDeck } from "../utils/api/index";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
+  const [decksHaveChanged, setDecksHaveChanged] = useState(false);
   //const {path, url} = useRouteMatch();
 
   // Retrieve all decks from the api for display on home page
@@ -30,12 +31,13 @@ function Layout() {
     }
 
     getDecks();
+    setDecksHaveChanged(false);
 
     return () => {
       ABORT.abort();
     }
 
-  }, []);
+  }, [decksHaveChanged]);
 
   return (
     <>
@@ -49,13 +51,13 @@ function Layout() {
             <Study readDeck={readDeck} listCards={listCards} />
           </Route>
           <Route path="/new" exact>
-            <DeckForm />
+            <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
           </Route>
           <Route path="/:deckId">
             <CardsDisplay />
           </Route>
           <Route path="/">
-            <DecksDisplay decks={decks}/>
+            <DecksDisplay decks={decks} deleteDeck={deleteDeck} reload={setDecksHaveChanged} />
           </Route>
           <Route>
             <NotFound />

@@ -1,26 +1,55 @@
 import React from "react";
-import { EyeFill, JournalBookmarkFill, TrashFill, PlusCircleFill } from "react-bootstrap-icons";
+import {
+  EyeFill,
+  JournalBookmarkFill,
+  TrashFill,
+  PlusCircleFill,
+} from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-export default function DecksDisplay({ decks }) {
+export default function DecksDisplay({ decks, deleteDeck, reload }) {
 
-  const decksForDisplay = decks.map((deck) => {
+  const handleDelete = (e) => {
+    const ABORT = new AbortController();
+
+    const removeDeck = async () => {
+      try {
+        const response = await deleteDeck(e.target.parentNode["name"], ABORT.signal);
+        console.log("Successfully deleted", response)
+        reload(true);
+      } catch (e) {
+        if (e.name === "AbortError") {
+          console.log(e);
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    removeDeck();
+
+    return () => {
+      ABORT.abort();
+    }
+  }
+
+  const decksForDisplay = decks.map((deck, idx) => {
     return (
-      <div className="card">
+      <div className="card" key={idx}>
         <div className="card-body">
           <h5 className="card-title">{deck.name}</h5>
           <p className="card-text">{deck.description}</p>
 
           <div className="d-flex">
             <Link to={`/${deck.id}`}>
-              <button renderAs={Link} class="btn btn-secondary" type="button">
+              <button className="btn btn-secondary" type="button">
                 {" "}
                 <EyeFill /> &nbsp; View
               </button>
             </Link>
             <Link to={`/${deck.id}/study`}>
               <button
-                class="btn btn-primary"
+                className="btn btn-primary"
                 type="button"
                 style={{ marginLeft: "10px" }}
               >
@@ -29,9 +58,9 @@ export default function DecksDisplay({ decks }) {
                 &nbsp; Study
               </button>
             </Link>
-            <button class="btn btn-danger ml-auto" type="button">
+            <button name={deck.id} onClick={handleDelete} className="btn btn-danger ml-auto" type="button">
               {" "}
-              <TrashFill />
+              <TrashFill name={deck.id}/>
             </button>
           </div>
         </div>
@@ -39,18 +68,22 @@ export default function DecksDisplay({ decks }) {
     );
   });
 
-  return <React.Fragment>
-    <Link to="/new">
-          <button
-            className="btn btn-secondary"
-            style={{ marginBottom: "25px" }}
-            type="button"
-          >
-            {" "}
-            <PlusCircleFill />
-            &nbsp; Create Deck
-          </button>
-        </Link>
-    {decksForDisplay}
-    </React.Fragment>;
+  return (
+    <React.Fragment>
+      <Link to="/new">
+        <button
+          className="btn btn-secondary"
+          style={{ marginBottom: "25px" }}
+          type="button"
+        >
+          {" "}
+          <PlusCircleFill />
+          &nbsp; Create Deck
+        </button>
+      </Link>
+      <div id="decksContainer" style={{ marginBottom: "50px" }}>
+        {decksForDisplay}
+      </div>
+    </React.Fragment>
+  );
 }
