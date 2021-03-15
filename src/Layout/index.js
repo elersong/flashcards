@@ -66,15 +66,17 @@ function Layout() {
   }
 
   // deletion handler for individual cards
-  const handleCardDelete = (idValue) => {
+  const handleCardDelete = (idValue, deckId) => {
     const ABORT = new AbortController();
+    const confirmMsg = "Delete this card? \n\nYou willnot be able to recover it.";
 
     const removeCard = async () => {
       try {
-        const response = await deleteCard(idValue, ABORT.signal);
-        console.log("Successfully deleted", response)
-        setDecksHaveChanged(true);
-        history.push("/")
+        deleteCard(idValue, ABORT.signal)
+          .then((response) => {
+            console.log("Successfully deleted card.", response);
+            setDecksHaveChanged(true);
+          }).then(() => history.push(`/${deckId}`));
       } catch (e) {
         if (e.name === "AbortError") {
           console.log(e);
@@ -84,7 +86,9 @@ function Layout() {
       }
     }
 
-    removeCard();
+    if (window.confirm(confirmMsg)) {
+      removeCard();
+    }
 
     return () => {
       ABORT.abort();

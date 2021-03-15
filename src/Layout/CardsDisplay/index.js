@@ -49,6 +49,12 @@ export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
     };
   }, [params.deckId]);
 
+  const deleteAndRefresh = (cardId, deckId) => {
+    handleCardDelete(cardId, deckId);
+    let newCards = cards.filter(card => card.id !== cardId);
+    setCards(() => newCards);
+  }
+
   const cardsForDisplay = cards.map((card) => {
     return (
       <div key={card.id} className="card">
@@ -71,7 +77,7 @@ export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
               style={{ marginLeft: "10px" }}
               className="btn btn-danger"
               type="button"
-              onClick={() => handleCardDelete(card.id)}
+              onClick={() => deleteAndRefresh(card.id, params.deckId)}
             >
               {" "}
               <TrashFill />
