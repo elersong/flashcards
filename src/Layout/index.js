@@ -42,7 +42,7 @@ function Layout() {
   // pass a deletion handler as needed
   const handleDeckDelete = (idValue) => {
     const ABORT = new AbortController();
-    const confirmMsg = "Delete this deck? \n\nYou willnot be able to recover it.";
+    const confirmMsg = "Delete this deck? \n\nYou will not be able to recover it.";
 
     const removeDeck = async () => {
       try {
@@ -71,7 +71,7 @@ function Layout() {
   // deletion handler for individual cards
   const handleCardDelete = (idValue, deckId) => {
     const ABORT = new AbortController();
-    const confirmMsg = "Delete this card? \n\nYou willnot be able to recover it.";
+    const confirmMsg = "Delete this card? \n\nYou will not be able to recover it.";
 
     const removeCard = async () => {
       try {
