@@ -42,11 +42,12 @@ function Layout() {
   // pass a deletion handler as needed
   const handleDeckDelete = (idValue) => {
     const ABORT = new AbortController();
+    const confirmMsg = "Delete this deck? \n\nYou willnot be able to recover it.";
 
     const removeDeck = async () => {
       try {
         const response = await deleteDeck(idValue, ABORT.signal);
-        console.log("Successfully deleted", response)
+        console.log("Successfully deleted deck", response)
         setDecksHaveChanged(true);
         history.push("/")
       } catch (e) {
@@ -58,7 +59,9 @@ function Layout() {
       }
     }
 
-    removeDeck();
+    if (window.confirm(confirmMsg)) {
+      removeDeck();
+    }
 
     return () => {
       ABORT.abort();
@@ -76,7 +79,7 @@ function Layout() {
           .then((response) => {
             console.log("Successfully deleted card.", response);
             setDecksHaveChanged(true);
-          }).then(() => history.push(`/${deckId}`));
+          });
       } catch (e) {
         if (e.name === "AbortError") {
           console.log(e);
