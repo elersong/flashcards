@@ -141,7 +141,7 @@ export default function CardsDisplay() {
         </button>
       </div>
       <h2>Cards</h2>
-      {cardsForDisplay}
+      <div id="cardsGroup" style={{marginBottom: "50px"}}>{cardsForDisplay}</div>
     </React.Fragment>
   );
 }
