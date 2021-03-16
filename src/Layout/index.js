@@ -121,7 +121,7 @@ function Layout() {
           <Route path="/decks/:deckId">
             <CardsDisplay handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} />
           </Route>
-          <Route path="/">
+          <Route path="/" exact>
             <DecksDisplay decks={decks} handleDelete={handleDeckDelete} />
           </Route>
           <Route>
