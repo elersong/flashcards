@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PlusCircleFill } from "react-bootstrap-icons";
 
-export default function Study({ readDeck, listCards }) {
+export default function Study({ decks, readDeck, listCards }) {
   const { deckId } = useParams();
-  const [deckInfo, setDeckInfo] = useState({});
-  const [cards, setCards] = useState([]);
+  const [deckInfo, setDeckInfo] = useState(decks.filter(deck => deck.id === Number(deckId)));
+  const [cards, setCards] = useState([decks]);
   const [currentCard, setCurrentCard] = useState({
     orderId: 1,
     displayFront: true,
@@ -17,13 +17,13 @@ export default function Study({ readDeck, listCards }) {
       const response = await readDeck(deckId, ABORT.signal);
       setDeckInfo(() => response);
     };
-    const getCards = async () => {
-      const response = await listCards(deckId, ABORT.signal);
-      setCards(() => response);
-    };
+    // const getCards = async () => {
+    //   const response = await listCards(deckId, ABORT.signal);
+    //   setCards(() => response);
+    // };
 
     getDeck();
-    getCards();
+    // getCards();
 
     return () => {
       ABORT.abort();

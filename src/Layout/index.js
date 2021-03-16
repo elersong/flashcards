@@ -110,7 +110,7 @@ function Layout() {
             <CardForm role="Add" readDeck={readDeck} createCard={createCard} />
           </Route>
           <Route path="/decks/:deckId/study">
-            <Study readDeck={readDeck} listCards={listCards} />
+            <Study decks={decks}/>
           </Route>
           <Route path="/decks/new" exact>
             <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
