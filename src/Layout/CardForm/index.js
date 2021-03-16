@@ -41,7 +41,7 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
 
   const handleSubmit = (e) => {
     const ABORT = new AbortController();
-    if (role === "Create") {
+    if (role === "Add") {
       const runCreateFunction = async () => {
         try {
           const response = await createCard(deckId, formData, ABORT.signal);
@@ -92,10 +92,10 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
           <li className="breadcrumb-item">
             <Link to={`/decks/${deckInfo.id}`}>{deckInfo.name}</Link>
           </li>
-          <li className="breadcrumb-item active">{role} Card</li>
+          <li className="breadcrumb-item active">{role} Card {cardId}</li>
         </ol>
       </nav>
-      <h2>{role} Card</h2>
+      <h2>{deckInfo.name}: {role} Card</h2>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
