@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 
-export default function CardForm({ role, readDeck, readCard, updateCard, createCard }) {
+export default function CardForm({
+  role,
+  readDeck,
+  readCard,
+  updateCard,
+  createCard,
+}) {
   const [formData, setFormData] = useState({ front: "", back: "" });
   const [deckInfo, setDeckInfo] = useState({});
   const { deckId, cardId } = useParams();
@@ -19,10 +25,10 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
     if (cardId) {
       const getCard = async () => {
         const response = await readCard(cardId, ABORT.signal);
-        console.log(response)
-        setFormData(() => response)
-      }
-      getCard()
+        console.log(response);
+        setFormData(() => response);
+      };
+      getCard();
     }
 
     return () => {
@@ -53,13 +59,13 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
             throw e;
           }
         }
-      }
+      };
       runCreateFunction();
       history.push(`/decks/${deckId}`);
 
       return () => {
         ABORT.abort();
-      }
+      };
     } else {
       const runUpdateFunction = async () => {
         try {
@@ -72,15 +78,15 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
             throw e;
           }
         }
-      }
+      };
       runUpdateFunction();
       history.push(`/decks/${deckId}`);
 
       return () => {
         ABORT.abort();
-      }
+      };
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -92,10 +98,14 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
           <li className="breadcrumb-item">
             <Link to={`/decks/${deckInfo.id}`}>{deckInfo.name}</Link>
           </li>
-          <li className="breadcrumb-item active">{role} Card {cardId}</li>
+          <li className="breadcrumb-item active">
+            {role} Card {cardId}
+          </li>
         </ol>
       </nav>
-      <h2>{deckInfo.name}: {role} Card</h2>
+      <h2>
+        {deckInfo.name}: {role} Card
+      </h2>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -120,7 +130,9 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
           ></textarea>
         </div>
 
-        <button className="btn btn-secondary">Cancel</button>
+        <Link to={`/decks/${deckInfo.id}`}>
+          <button className="btn btn-secondary">Cancel</button>
+        </Link>
         <button
           type="submit"
           className="btn btn-primary"
