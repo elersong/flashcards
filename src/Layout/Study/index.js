@@ -116,7 +116,7 @@ export default function Study({ readDeck, listCards }) {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to={`/${deckInfo.id}`}>{deckInfo.name}</Link>
+            <Link to={`/decks/${deckInfo.id}`}>{deckInfo.name}</Link>
           </li>
           <li className="breadcrumb-item active">Study</li>
         </ol>

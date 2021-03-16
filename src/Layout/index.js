@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
-import DecksDisplay from "./DecksDisplay/index";
+import DecksDisplay from "./DecksDisplay";
 import CardsDisplay from "./CardsDisplay";
 import DeckForm from './DeckForm';
 import CardForm from './CardForm';
@@ -99,26 +99,26 @@ function Layout() {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Header />
       <div className="container">
         <Switch>
-          <Route path="/:deckId/cards/:cardId/edit">
+          <Route path="/decks/:deckId/cards/:cardId/edit">
             <CardForm role="Edit" readDeck={readDeck} readCard={readCard} updateCard={updateCard} />
           </Route>
-          <Route path="/:deckId/cards/new">
+          <Route path="/decks/:deckId/cards/new">
             <CardForm role="Create" readDeck={readDeck} createCard={createCard} />
           </Route>
-          <Route path="/:deckId/study">
+          <Route path="/decks/:deckId/study">
             <Study readDeck={readDeck} listCards={listCards} />
           </Route>
-          <Route path="/new" exact>
+          <Route path="/decks/new" exact>
             <DeckForm role="Create" createDeck={createDeck} reload={setDecksHaveChanged} />
           </Route>
-          <Route path="/:deckId/edit">
+          <Route path="/decks/:deckId/edit">
             <DeckForm role="Edit" updateDeck={updateDeck} reload={setDecksHaveChanged} readDeck={readDeck} />
           </Route>
-          <Route path="/:deckId">
+          <Route path="/decks/:deckId">
             <CardsDisplay handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} />
           </Route>
           <Route path="/">
@@ -129,7 +129,7 @@ function Layout() {
           </Route>
         </Switch>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

@@ -66,7 +66,7 @@ export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
 
           <div className="d-flex" style={{ marginTop: "10px" }}>
 
-            <Link to={`/${params.deckId}/cards/${card.id}/edit`} className="ml-auto">
+            <Link to={`/decks/${params.deckId}/cards/${card.id}/edit`} className="ml-auto">
               <button className="btn btn-secondary" type="button">
                 {" "}
                 <PencilFill />
@@ -103,14 +103,14 @@ export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
       <h3>{deck.name}</h3>
       <p>{deck.description}</p>
       <div className="d-flex" style={{ marginBottom: "20px" }}>
-        <Link to={`/${deck.id}/edit`}>
+        <Link to={`/decks/${deck.id}/edit`}>
           <button className="btn btn-secondary" type="button">
             {" "}
             <PencilFill />
             &nbsp; Edit
           </button>
         </Link>
-        <Link to={`/${deck.id}/study`}>
+        <Link to={`/decks/${deck.id}/study`}>
           <button
             className="btn btn-primary"
             style={{ marginLeft: "10px" }}
@@ -121,7 +121,7 @@ export default function CardsDisplay({ handleDeckDelete, handleCardDelete }) {
             &nbsp; Study
           </button>
         </Link>
-        <Link to={`/${deck.id}/cards/new`}>
+        <Link to={`/decks/${deck.id}/cards/new`}>
           <button
             className="btn btn-primary"
             style={{ marginLeft: "10px" }}

@@ -17,13 +17,13 @@ export default function DecksDisplay({ decks, handleDelete }) {
           <p className="card-text">{deck.description}</p>
 
           <div className="d-flex">
-            <Link to={`/${deck.id}`}>
+            <Link to={`/decks/${deck.id}`}>
               <button className="btn btn-secondary" type="button">
                 {" "}
                 <EyeFill /> &nbsp; View
               </button>
             </Link>
-            <Link to={`/${deck.id}/study`}>
+            <Link to={`/decks/${deck.id}/study`}>
               <button
                 className="btn btn-primary"
                 type="button"
@@ -46,7 +46,7 @@ export default function DecksDisplay({ decks, handleDelete }) {
 
   return (
     <React.Fragment>
-      <Link to="/new">
+      <Link to="/decks/new">
         <button
           className="btn btn-secondary"
           style={{ marginBottom: "25px" }}

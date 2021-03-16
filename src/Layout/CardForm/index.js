@@ -55,7 +55,7 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
         }
       }
       runCreateFunction();
-      history.push(`/${deckId}`);
+      history.push(`/decks/${deckId}`);
 
       return () => {
         ABORT.abort();
@@ -74,7 +74,7 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
         }
       }
       runUpdateFunction();
-      history.push(`/${deckId}`);
+      history.push(`/decks/${deckId}`);
 
       return () => {
         ABORT.abort();
@@ -90,7 +90,7 @@ export default function CardForm({ role, readDeck, readCard, updateCard, createC
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to={`/${deckInfo.id}`}>{deckInfo.name}</Link>
+            <Link to={`/decks/${deckInfo.id}`}>{deckInfo.name}</Link>
           </li>
           <li className="breadcrumb-item active">{role} Card</li>
         </ol>
