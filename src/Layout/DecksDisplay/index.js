@@ -13,7 +13,11 @@ export default function DecksDisplay({ decks, handleDelete }) {
     return (
       <div className="card" key={idx}>
         <div className="card-body">
-          <h5 className="card-title">{deck.name}</h5>
+          <div className="d-flex">
+            <h5 className="card-title">{deck.name}</h5>
+            <p className="text-muted ml-auto">{deck.cards.length} cards</p>
+          </div>
+          
           <p className="card-text">{deck.description}</p>
 
           <div className="d-flex">
