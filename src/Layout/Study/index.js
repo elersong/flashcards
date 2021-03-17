@@ -60,6 +60,19 @@ export default function Study({ readDeck, listCards }) {
   };
 
   const studyContent = (() => {
+    let nextButton;
+    if (!currentCard.displayFront) {
+      nextButton = <button
+      onClick={handleNextCard}
+      className="btn btn-primary"
+      type="button"
+      style={{ marginLeft: "10px" }}
+    >
+      Next
+    </button>;
+    } else {
+      nextButton = (null);
+    }
     if (cards.length >= 3) {
       return (
         <div className="card">
@@ -74,14 +87,7 @@ export default function Study({ readDeck, listCards }) {
             >
               Flip
             </button>
-            <button
-              onClick={handleNextCard}
-              className="btn btn-primary"
-              type="button"
-              style={{ marginLeft: "10px" }}
-            >
-              Next
-            </button>
+            {nextButton}
           </div>
         </div>
       );
@@ -94,10 +100,7 @@ export default function Study({ readDeck, listCards }) {
             this deck.
           </p>
           <Link to={`/decks/${deckId}/cards/new`}>
-            <button
-              className="btn btn-primary"
-              type="button"
-            >
+            <button className="btn btn-primary" type="button">
               {" "}
               <PlusCircleFill />
               &nbsp; Add Cards
