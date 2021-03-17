@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { PlusCircleFill } from "react-bootstrap-icons";
 
 export default function Study({ readDeck, listCards }) {
@@ -10,6 +10,7 @@ export default function Study({ readDeck, listCards }) {
     orderId: 1,
     displayFront: true,
   });
+  const history = useHistory();
 
   useEffect(() => {
     const ABORT = new AbortController();
@@ -50,13 +51,28 @@ export default function Study({ readDeck, listCards }) {
 
   const handleNextCard = (e) => {
     const nextCardId =
-      currentCard.orderId >= cards.length ? 0 : currentCard.orderId;
-    const newCurrentCard = {
-      orderId: nextCardId + 1,
-      displayFront: true,
-      ...cards[nextCardId],
-    };
-    setCurrentCard(() => newCurrentCard);
+      currentCard.orderId >= cards.length ? false : currentCard.orderId;
+    if (nextCardId) {
+      const newCurrentCard = {
+        orderId: nextCardId + 1,
+        displayFront: true,
+        ...cards[nextCardId],
+      };
+      setCurrentCard(() => newCurrentCard);
+    } else {
+      // If this is the last card, show the restart modal 
+      const confirmMsg = "Restart the cards? \n\nClick 'Cancel' to return to home page.";
+      if (window.confirm(confirmMsg)) {
+        const newCurrentCard = {
+          orderId: 1,
+          displayFront: true,
+          ...cards[0]
+        }
+        setCurrentCard(() => newCurrentCard)
+      } else {
+        history.push("/");
+      }
+    }
   };
 
   const studyContent = (() => {
