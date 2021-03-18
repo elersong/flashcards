@@ -34,8 +34,8 @@ export default function Study({ readDeck, listCards }) {
   useEffect(() => {
     const newCurrentCard = { ...currentCard, ...cards[0] };
     setCurrentCard(() => newCurrentCard);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+
+  }, [cards, currentCard]);
 
   const handleFlip = (e) => {
     const newCurrentCard = {
