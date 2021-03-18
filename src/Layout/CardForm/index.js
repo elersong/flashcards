@@ -7,6 +7,7 @@ export default function CardForm({
   readCard,
   updateCard,
   createCard,
+  triggerRerender
 }) {
   const [formData, setFormData] = useState({ front: "", back: "" });
   const [deckInfo, setDeckInfo] = useState({});
@@ -62,6 +63,7 @@ export default function CardForm({
       };
       runCreateFunction();
       history.push(`/decks/${deckId}`);
+      triggerRerender(true);
 
       return () => {
         ABORT.abort();
