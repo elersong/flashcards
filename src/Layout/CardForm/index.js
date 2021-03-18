@@ -35,8 +35,8 @@ export default function CardForm({
     return () => {
       ABORT.abort();
     };
-    // eslint-disable-next-line
-  }, [deckId, readDeck]);
+    
+  }, [deckId, readDeck, cardId, readCard]);
 
   const handleChange = (e) => {
     const property = e.target.id;
